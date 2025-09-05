@@ -1,0 +1,144 @@
+
+
+:root{
+    --dark-blue:rgb(37,61,92);
+    --middle-blue:rgb(51, 92, 129);
+    --light-blue:rgb(93,161,234);
+    --yellow: #ffc857;
+    --pink:rgb(255,169,231);
+}
+
+.header-text-area .header-text-dark{
+    letter-spacing: .9px;
+}
+
+.table_box{
+    overflow: auto;
+    height: 200px;
+}
+
+.table_box table{
+    width: 100%;
+    position: relative;
+    text-align: center;
+    border-collapse: collapse;
+    
+}
+
+.table_box table th{
+    padding: 10px 30px;
+
+}
+
+.table_box table tr:nth-child(odd){
+    background-color:var(--light-blue);
+    color: white;
+}
+
+.table_box table tr:nth-child(1){
+    color: var(--middle-blue);
+    background-color: var(--yellow);
+    position: sticky;
+    top: 0;
+}
+.table_box table td{
+    padding: 8px 0;
+}
+
+.table_box table td:focus{
+    outline: none;
+    background-color: var(--middle-blue);
+    color: white;
+}
+
+
+.table_box table tr button{
+    color: var(--light-blue);
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid var(--light-blue);
+}
+
+.table_box table tr:nth-child(odd) button{
+    color: white;
+    border-color: white;
+    background-color: var(--light-blue);
+}
+
+
+.btn-box button{
+    padding: 7px 34px;
+    border: 2px solid var(--yellow);
+    background-color: var(--yellow);
+    color: white;
+    border-radius: 7px;
+    transition: .4s ease;
+}
+
+.btn-box button:nth-child(2){
+    background-color: var(--middle-blue);
+    border-color: var(--middle-blue);
+}
+
+.btn-box button:nth-child(1):hover{
+    background-color: white;
+    color: var(--yellow);
+}
+
+
+.btn-box button:nth-child(2):hover{
+    background-color: white;
+    color: var(--middle-blue);
+}
+
+
+.btn-box2 button{
+    padding: 7px 34px;
+    border: 2px solid var(--light-blue);
+    background-color: var(--light-blue);
+    color: white;
+    border-radius: 7px;
+    transition: .4s ease;
+}
+
+
+.btn-box2 button:hover{
+    background-color: white;
+    color: var(--light-blue);
+}
+
+
+#tableApiName{
+    color: var(--light-blue);
+    font-size: clamp(16px ,1.5vw ,20px);
+}
+
+#apiType{
+    font-size: clamp(14px ,1.4vw ,18px);
+}
+
+@media(max-width: 768px){
+    .btn-box button{
+        padding: 6px 24px;
+        
+    }
+
+    
+}
+
+
+@media(max-width: 576px){
+    .btn-box button{
+        padding: 5px 20px;
+    }
+    /* .table_box{
+        overflow-x: auto;
+        max-width: 100%;
+        box-sizing: border-box;
+        direction: ltr;
+    } */
+
+    .btn-box2 button{
+        padding: 6px 22px;
+    }
+}

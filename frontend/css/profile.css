@@ -1,0 +1,197 @@
+:root{
+    --dark-blue:rgb(37,61,92);
+    --middle-blue:rgb(51, 92, 129);
+    --light-blue:rgb(93,161,234);
+    --yellow: #ffc857;
+    --pink:rgb(255,169,231);
+}
+
+
+body{
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+
+.text{
+    color: gray;
+    font-size:calc(17px + 0.5vw);
+    padding-right: 40px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--middle-blue);
+}
+
+
+.notif_area{
+    width: 410px;
+    height: 560px;
+    position: absolute;
+    background-color: white;
+    top: 30px;
+    right: -450px;
+    border-radius: 10px;
+    border: 2px solid var(--middle-blue);    
+    transition: .5s ease;
+}
+
+.only-notif{
+    width: 100%;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.notif{
+    border: 2px solid var(--light-blue);
+    border-radius: 8px;
+}
+
+
+.close{
+    cursor: pointer;
+    font-size: calc(16px + 0.4vw);
+}
+.other-user i{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--dark-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    
+}
+
+.btn-box .read{
+    background-color: var(--middle-blue);
+    border-color: var(--middle-blue);
+}
+
+
+.btn-box button:nth-child(3){
+    background-color: var(--pink);
+    border-color: var(--pink);
+    
+}
+
+.btn-box .delete_btn{
+    background-color: var(--light-blue);
+    border-color: var(--light-blue);
+}
+
+.gear-area{
+    width: 300px;
+    height: 370px;
+    color: white;
+    background-color: var(--dark-blue);
+    position: absolute;
+    transition: .5s ease;
+    right: -350px;
+    top: 30px;
+}
+
+
+
+.gear-info .fa-user{
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 20px;
+    margin-bottom: 10px;
+    background-color: var(--yellow);
+}
+
+
+.gear-info .fa-pencil{
+    cursor: pointer;
+}
+
+.gear-area button{
+    border: 1px solid white;
+    color: white;
+    background-color: transparent;
+    padding: 7px 18px;
+    word-spacing: 6px;
+    border-radius: 8px;
+}
+
+.bell-box p{
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-weight: 500;
+    font-size: calc(10px + 0.03vw); 
+    color: white;
+    width: 4ch;
+    aspect-ratio: 10/10;
+    display: flex;
+    padding: 2px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: red;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: none;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    .bell-box p{
+        font-size: calc(8px + 0.03vw); 
+    
+    }
+}
+
+
+@media(max-width: 576px){
+    .notif_area{
+        width: 300px;
+        height: 460px;
+        top: 10px;
+    }
+
+    .only-notif{
+        height: 310px;
+    }
+
+
+    .gear-area{
+        width: 250px;
+        height: 350px;
+        top: 10px;
+    }
+
+
+    .gear-area button{
+        border: 1px solid white;
+        color: white;
+        background-color: transparent;
+        padding: 6px 10px;
+        font-size: 15px;
+    }
+
+    
+}
+

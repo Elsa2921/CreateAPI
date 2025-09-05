@@ -1,0 +1,297 @@
+:root{
+    --dark-blue:rgb(37,61,92);
+    --middle-blue:rgb(51, 92, 129);
+    --light-blue:rgb(93,161,234);
+    --yellow: #ffc857;
+    --pink:rgb(255,169,231);
+}
+
+.body{
+    box-sizing: border-box;
+}
+.back-area form,
+.userSearch{
+    width: fit-content;
+    gap: 20px;
+    z-index: 1;
+    padding: 2px;
+}
+
+
+.back-area form input,
+.userSearch input{
+    width: 250px;
+    padding-left: 10px;
+    height: 42px;
+    border: 2px solid var(--middle-blue);
+    border-radius: 8px;
+    outline: none;
+}
+
+
+.userSearch input{
+    border-color: var(--light-blue);
+}
+.back-area form button,
+.userSearch button{
+    width: 45px;
+    padding: 5px;
+    height: 43px;
+    border-radius: 7px;
+    cursor: pointer;
+    
+    background-color: var(--middle-blue);
+    border: 2px solid var(--middle-blue);
+}
+
+
+.userSearch button{
+    background-color: var(--light-blue);
+    border-color: var(--light-blue);
+}
+
+.back-area form button i,
+.userSearch button i{
+    color: white;
+    font-size: calc(14px + 0.2vw);
+}
+
+
+.filter-btns{
+    border-bottom: 2px solid gray;
+    gap: 40px;
+}
+
+.filter-btns .status_{
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+    font-weight: 500;
+    color: var(--middle-blue);
+}
+
+.filter-btns .status_active{
+    color: var(--light-blue);
+}
+
+
+.api_area{
+    width: 100%;
+    height: 300px;
+    overflow-y: auto;
+    gap: 20px;
+}
+
+.api_{
+    height: fit-content;
+    gap: 15px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px 20px;
+    width: 31.5%;
+}
+
+.api_ span{
+    width: 100%;
+    text-align: end;
+    color: gray;
+}
+
+
+.api_ h4{
+    color: var(--light-blue);
+}
+
+.api_ h5 i{
+    font-size: calc(14px + 0.2vw);
+    color: black;
+}
+
+.api_ h5 {
+    color: var(--middle-blue);
+}
+
+
+.btn-box button{
+    padding: 5px 12px;
+    border: 2px solid;
+    border-radius: 8px;
+    color: white;   
+    font-size: calc(14px + 0.2px);
+    border-color: var(--yellow);
+    background-color: var(--yellow);
+}
+
+
+.private .btn-box .permission_btn{
+    border-color: var(--pink);
+    background-color: var(--pink);
+}
+
+.other-profile-info i{
+    font-size: calc(15px + 0.3vw);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: var(--yellow);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+.cont-info{
+    width: 50%;
+    padding: 30px;
+    position: absolute;
+    border-radius: 10px;
+    background-color: white;
+    top: 150px;
+    border: 2px solid black;
+    z-index: 9;
+    transform: scale(0);
+    transition: .5s ease;
+}
+
+.cont-info ol{
+    padding: 20px 30px;
+}
+
+
+.cont-info ol li{
+    color: gray;
+}
+
+
+.cont-info details summary{
+    margin-bottom: 20px;
+    color: var(--dark-blue);
+}
+
+
+.cont-info details p{
+    color: var(--light-blue);
+}
+
+
+
+#close_info{
+    cursor: pointer;
+    font-size: 23px;
+    transition: .4s ease;
+}
+
+
+#close_info:hover{
+    color: var(--middle-blue);
+}
+
+.btn-dark{
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--middle-blue);
+    font-size: clamp(13px ,1.1vw ,16px);
+    color: white;
+}
+/* @media(max-width:1200px){
+    .api_{
+        width: 31%;
+    }
+} */
+
+
+@media(max-width:992px) {
+    .api_{
+        width: 47%;
+    }
+
+
+    .cont-info{
+        width: 60%;
+        padding: 25px;
+        top: 120px;
+    }
+
+    .cont-info h4{
+        font-size: 20px;
+    }
+
+    #close_info{
+        font-size: 22px;
+    }
+}
+
+@media(max-width:768px) {
+    .api_{
+        width: 100%;
+    }
+    .cont-info{
+        width: 70%;
+        padding: 20px;
+    }
+    #close_info{
+        font-size: 20px;
+    }
+
+    .cont-info h4{
+        font-size: 19px;
+    }
+
+    .cont-info details p{
+        font-size: 15px;
+    }
+    .btn-dark {
+        padding: 6px 12px;
+    }
+}
+
+
+@media(max-width:576px) {
+    .back-area form,
+    .userSearch{
+        width: fit-content;
+        gap: 10px;
+        
+    }
+
+
+    .cont-info{
+        width: 90%;
+        padding: 25px;
+        top: 70px;
+    }
+
+
+    .cont-info h4{
+        font-size: 18px;
+    }
+
+    .cont-info details p{
+        font-size: 14px;
+    }
+    .back-area form input,
+    .userSearch input{
+        width: 190px;
+        padding-left: 7px;
+        height: 40px;
+    }
+
+
+    .userSearch input{
+        width: 200px;
+    }
+    .back-area form button,
+    .userSearch button{
+        width: 40px;
+        padding: 3px;
+        height: 40px;
+    }
+}

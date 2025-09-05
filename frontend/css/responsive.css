@@ -1,0 +1,80 @@
+@media(max-width:992px){
+    .block1-text,
+    .block1-img{
+        width: 100%;
+    }
+
+    .block1 p{
+        font-size: 18px;
+    }
+
+
+   
+    .text-square{
+        width: 100%;
+    }
+
+
+
+
+
+
+
+    .icons-pages,
+    .contact{
+        width: 50%;
+    }
+}
+
+
+
+
+@media(max-width:575px){
+    .menu-btn{
+        font-size: 13px;
+        padding: 5px 10px;
+    }
+    .bars{
+        font-size: 25px;
+    }
+  
+    .block1-text p{
+        font-size: 16px;
+    }
+       .block1-img{
+        height: 300px;
+    }
+
+
+
+    .block3-list{
+        line-height: 40px;
+    }
+
+    .explore-btn,
+    .create-btn{
+        font-size: 13px;
+        padding: 10px ;
+    }
+
+
+
+    
+    .icons-pages,
+    .contact{
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+@media(max-width:435px){
+    .text-square{
+        height: fit-content;
+        padding: 10px;
+    }
+}

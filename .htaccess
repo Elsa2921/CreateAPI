@@ -1,0 +1,33 @@
+RewriteEngine On
+
+
+ErrorDocument 404  /error.html
+ErrorDocument 403 /403.html
+
+RewriteCond %{REQUEST_URI} ^/special-missing-page
+RewriteRule .* /error.html [L]
+
+
+RewriteRule ^backend/base/ - [F,L]
+RewriteRule ^backend/edit/ - [F,L]
+RewriteRule ^backend/register/ - [F,L]
+RewriteRule ^backend/checkers/ - [F,L]
+RewriteRule ^backend/pages/ - [F,L]
+RewriteRule ^backend/index_profile/ - [F,L]
+
+# 2. ❌ Deny all PHP files in /backend/profle/ EXCEPT logout.php
+# RewriteCond %{REQUEST_URI} ^/backend/profle/.*\.php$
+# RewriteCond %{REQUEST_URI} !^/backend/profle/logout\.php$ [NC]
+# RewriteRule .* - [F,L]
+
+# 3. ❌ Deny browser GET access to PHP files in /backend/requests/
+# RewriteCond %{REQUEST_URI} ^/backend/requests/.*\.php$ [NC]
+# RewriteCond %{REQUEST_URI} !^/backend/requests/(view|search)\.php$ [NC]
+# RewriteCond %{REQUEST_METHOD} GET
+# RewriteRule .* - [F,L]
+
+# # 4. ❌ Deny all other PHP access EXCEPT logout and requests
+# RewriteCond %{REQUEST_URI} \.php$
+# RewriteCond %{REQUEST_URI} !^/backend/requests/
+# RewriteCond %{REQUEST_URI} !^/backend/profle/logout\.php$ [NC]
+# RewriteRule .* - [F,L]
