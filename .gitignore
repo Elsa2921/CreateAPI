@@ -1,2 +1,4 @@
 backend/vendor
 *.env
+composer.lock
+composer.json
