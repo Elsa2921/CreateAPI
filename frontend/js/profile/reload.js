@@ -42,16 +42,15 @@ function drawNotif(data){
                     if(element['type_']==1){
                         str+= `
                         <p>wants to access to your API : ${element['api_name']}</p>
-                        <div class="btn-box w-100 d-flex justify-content-start gap-4">
-                            <button type="submit" class='deny' data-id=${element['id']}
+                        <div class="w-100 d-flex justify-content-start gap-4">
+                            <button type="submit" class='deny yellow-btn' data-id=${element['id']}
                             data-api-id=${element['api_id']} data-from=${element['from_']}
                             >
                             Deny
                             </button>
 
-                            <button type="submit" class='allow' data-id=${element['id']}
+                            <button type="submit" class='allow lightBlue-btn' data-id=${element['id']}
                             data-api-id=${element['api_id']} data-from=${element['from_']}
-                            style="background-color: rgb(93,161,234); border-color: rgb(93,161,234);"
                             >Allow
                         </button>
                         </div>
@@ -69,12 +68,12 @@ function drawNotif(data){
                     }
                     
                         str+= `
-                        <div class="btn-box w-100 d-flex justify-content-end gap-4">`
+                        <div class="w-100 d-flex justify-content-end gap-4">`
                         if(element['type_']!==1){
-                            str+=`<button type="submit" class="read_notif" data-id=${element['id']}>Read</button>`
+                            str+=`<button type="submit" class="read_notif yellow-btn" data-id=${element['id']}>Read</button>`
                         }
                             str+=`<span class="w-100 text-end mt-2">
-                                <i style="color: gray;">2025-06-10</i>
+                                <i color="gray-color">2025-06-10</i>
                             </span>
                         </div>`
                         
@@ -87,7 +86,7 @@ function drawNotif(data){
     }
     else{
         str+= `
-        <h4>No notifications</h4>
+        <h6>No notifications</h6>
         `
     }
 
@@ -196,9 +195,9 @@ function drawApi(data){
 
                 str+= `
                     <div data-id='${element['id']}' class="api_  d-flex justify-content-between align-items-center flex-column">`
-                    str+=`<h4 data-id=${element['id']}  contentEditable class='api_name_'>
+                    str+=`<h5 data-id=${element['id']}  contentEditable class='api_name_ lightBlue-color'>
                         ${element['api_name']}
-                    </h4>`
+                    </h5>`
                         if(element['type']!==null){
                             str+=`
                                 <div class="w-100 d-flex justify-content-between align-items-center flex-wrap">
@@ -225,30 +224,29 @@ function drawApi(data){
                         str+=`
                                 </div>
                         
-                                <div class="btn-box w-100 pb-3 d-flex justify-content-between flex-wrap gap-2">
+                                <div class="w-100 pb-3 d-flex justify-content-between flex-wrap gap-2">
     
-                                    <button class='links_btn' type="submit" style="background-color:
-                                    rgb(51, 92, 129); border-color: rgb(51, 92, 129);"
+                                    <button class='links_btn middleBlue-btn' type="submit"
                                      data-name=${element['api_name']}>
                                         Copy link <i class="fa-solid fa-paperclip"></i>
                                     </button>
     
                                     <a href="/create_api/backend/requests/view.php?apiView=${encodeURIComponent(true)}&name=${encodeURIComponent(element['api_name'])}&type=${encodeURIComponent(element['type'])}" 
                                     target="blank">
-                                        <button type="submit" class='view_btn'>
+                                        <button type="submit" class='yellow-btn view_btn'>
                                             <i class="fa-regular fa-eye"></i>
                                             View
                                             
                                         </button>
                                     </a>
-                                    <button type="submit" class='edit_btn'
+                                    <button type="submit" class='edit_btn pink-btn'
                                      data-id=${element['id']} data-type=${element['type']} data-name=${element['api_name']}>
                                         Edit
                                     </button>
                                     
                                 </div>
-                                <div class="btn-box w-100 d-flex justify-content-between">
-                                    <button type="submit" class="delete_btn" data-id=${element['id']} data-type=${element['type']}>
+                                <div class="w-100 d-flex justify-content-between">
+                                    <button type="submit" data-name=${element['api_name']} class="delete_btn lightBlue-btn" data-id=${element['id']} data-type=${element['type']}>
                                        <i class="fa-regular fa-trash-can"></i>
                                     </button>
                                     <span>
@@ -260,14 +258,13 @@ function drawApi(data){
 
                         else{
                             str+=`
-                            <div class="btn-box w-100 d-flex justify-content-between pb-3">
-                                <button type="submit" style="background-color:
-                                rgb(51, 92, 129); border-color: rgb(51, 92, 129);" 
-                                class='continue_btn'
+                            <div class="w-100 d-flex justify-content-between pb-3">
+                                <button type="submit"
+                                class='continue_btn middleBlue-btn'
                                 data-id=${element['id']} data-name=${element['api_name']}>
                                     Continue
                                 </button>
-                                <button type="submit" class="delete_btn" data-id=${element['id']} data-type=${element['type']}>
+                                <button type="submit" class="delete_btn lightBlue-btn" data-name=${element['api_name']} data-id=${element['id']} data-type=${element['type']}>
                                     <i class="fa-regular fa-trash-can"></i>
                                 </button>
                                 
@@ -292,7 +289,7 @@ function drawApi(data){
     }
     else{
 
-        str+= `<h3>You dont have any API</h3>`
+        str+= `<h6>You dont have any API</h6>`
         document.getElementById('api_box').innerHTML = str
     }
 
@@ -307,16 +304,39 @@ function delete_api(){
         element.addEventListener('click',async function() {
             let id = element.getAttribute('data-id')
             let type = element.getAttribute('data-type')
-            let data = {
-                'delete_api':true,
-                'id':id,
-                'type': type
-            }
+            const name = element.getAttribute('data-name')
+            const prom = await del_promission(name);
+            
+            console.error(prom=="1" ? 'yesss' : 'ni')
+            if(prom=="1"){
+                let data = {
+                    'delete_api':true,
+                    'id':id,
+                    'type': type
+                }
 
-            let res = await fetchDELETE(data);
-            if(res.message){
-                location.reload()
+                let res = await fetchDELETE(data);
+                if(res.message){
+                    location.reload()
+                }
             }
+           
+        })
+    })
+}
+
+function del_promission(name){
+    return new Promise((resolve)=>{
+        let parent = document.querySelector('.delete_permission_cont')
+        parent.style.transform = "scale(1)"
+        parent.querySelector('.delete_permission_area').querySelector('b').innerHTML = name
+        
+        let btns = document.querySelectorAll('.promise_btns')
+        btns.forEach(btn=>{
+            btn.addEventListener('click', function(){
+                parent.style.transform = "scale(0)"
+                resolve(btn.getAttribute('data-status'));
+            })  
         })
     })
 }

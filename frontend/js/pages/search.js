@@ -36,7 +36,7 @@ function drawUsers(data){
     let str = ``
     if(data.length==0){
         str+=`
-            <h4>404</h4>
+            <h5>404</h5>
         `
     }
     else{
@@ -45,9 +45,9 @@ function drawUsers(data){
                 <div data-id='${element['id']}' class="user_p_o d-flex justify-content-between align-items-center flex-wrap">
                     <div class='d-flex justify-content-between align-items-center gap-3'>
                         <i class='fa-solid fa-user'></i>
-                        <h5>${element['username']}</h5>
+                        <h5 class="darkBlue-color">${element['username']}</h5>
                     </div>
-                    <button data-id='${element['id']}' class='visit-user'>Visit</button>
+                    <button data-id='${element['id']}' class='visit-user pink-btn'>Visit</button>
                 </div>
             `
         })

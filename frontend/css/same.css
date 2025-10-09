@@ -1,0 +1,173 @@
+:root{
+    --dark-blue:rgb(37,61,92);
+    --middle-blue:rgb(51, 92, 129);
+    --light-blue:rgb(93,161,234);
+    --yellow: #ffc857;
+    --pink:rgb(255,169,231);
+}
+
+button{
+    cursor: pointer;
+    padding: 6px 15px;
+    border-radius: 7px;
+    border: 1px solid;
+    transition: .4s  ease;
+    font-size: clamp(13px ,1vw ,16px);
+
+}
+
+button:hover{
+    transform: scale(1.08);
+}
+.xl-btn{
+    width: 160px;
+    height: 43px;
+}
+
+.gray-btn{
+    border-color: gray;
+    background-color: gray;
+    color: white;
+    transition: .4s  ease;
+}
+
+
+
+.pink-btn{
+    border-color: var(--pink);
+    background-color: var(--pink);
+    color: white;
+    transition: .4s  ease;
+
+}
+
+
+
+.lightBlue-btn{
+    border-color: var(--light-blue);
+    background-color: var(--light-blue);
+    color: white;
+    transition: .4s  ease;
+
+}
+
+
+.middleBlue-btn{
+    border-color: var(--middle-blue);
+    background-color: var(--middle-blue);
+    color: white;
+    transition: .4s  ease;
+
+}
+
+
+.darkBlue-btn{
+    border-color: var(--dark-blue);
+    background-color: var(--dark-blue);
+    color: white;
+    transition: .4s  ease;
+
+}
+
+
+.yellow-btn{
+    border-color: var(--yellow);
+    background-color: var(--yellow);
+    color: white;
+    transition: .4s  ease;
+
+}
+
+h1{
+    font-size: clamp(22px , 4vw , 65px);
+}
+
+h2{
+    font-size: clamp(19px , 3.5vw , 60px);
+}
+
+h3{
+    font-size: clamp(16px , 2.8vw , 50px);
+}
+
+h4{
+    font-size: clamp(15.5px , 2.2vw , 40px);
+}
+
+h5{
+    font-size: clamp(14.5px , 1.7vw , 30px);
+}
+
+h6{
+    font-size: clamp(13px , 1.3vw , 20px);
+}
+
+
+
+p{
+    font-size: clamp(13px , 1vw , 17px);
+}
+
+.gray-color{
+    color: gray;
+}
+
+
+
+.pink-color{
+    color: var(--pink);
+
+}
+
+.white-color{
+    color: white;
+
+}
+
+.lightBlue-color{
+   color: var(--light-blue);
+
+}
+
+
+.middleBlue-color{
+    color: var(--middle-blue);
+
+}
+
+
+.darkBlue-color{
+    color: var(--dark-blue);
+
+}
+
+
+.yellow-color{
+    color: var(--yellow);
+
+}
+
+
+
+.wight-600{
+    font-weight: 600;
+}
+@media(max-width:768px){
+    button{
+        padding: 5px 12px;
+    }
+
+    .xl-btn{
+        padding: 0;
+        width: 130px;
+        height: 40px;
+    }
+}
+
+
+@media(max-width: 576px){
+    .xl-btn{
+        width: 120px;
+        height: 38px;
+    }
+}

@@ -4,7 +4,9 @@
 
 function getEmailForToken($id){
     global $class;
-    $stmt = $class->query("SELECT email FROM users WHERE id=:id",
+    $stmt = $class->query("SELECT email 
+    FROM users 
+    WHERE id=:id",
     [':id'=>$id],2);
     $flag = false;
     if($stmt->rowCount()>0){

@@ -3,8 +3,10 @@
 
 function name_checker($name){
     global $class;
-    $stmt = $class->query("SELECT id,api_name,type,public FROM api_names 
-    WHERE api_name=:api_name AND type IS NOT NULL",
+    $stmt = $class->query("SELECT id,api_name,type,public 
+    FROM api_names 
+    WHERE api_name=:api_name 
+        AND type IS NOT NULL",
     ['api_name'=>$name],2);
     $data = [];
     if($stmt->rowCount()>0){
@@ -35,8 +37,10 @@ function get_private_api($id,$f){
     if(!empty($cookie)){
         global $class;
 
-        $stmt = $class->query("SELECT * FROM private_apis 
-        WHERE token=:token AND api_id=:api_id",
+        $stmt = $class->query("SELECT * 
+        FROM private_apis 
+        WHERE token=:token 
+            AND api_id=:api_id",
         [':token'=>$cookie, ':api_id'=>$id],2);
 
         if($stmt->rowCount()>0){
@@ -73,38 +77,52 @@ function get_api($id,$type,$req){
         $col_ = "CONCAT_WS(' ', " . implode(',',$columns) . ")";
 
         if($search and !$page and !$load){
-            $query = "SELECT * FROM $type WHERE api_id=:api_id AND  $col_ LIKE :search";
+            $query = "SELECT * FROM $type 
+            WHERE api_id=:api_id 
+                AND  $col_ LIKE :search";
             $execute = ['api_id'=>$id,':search'=>"%$search%"];
         }
         elseif(!$search and $page and !$load){
             $page1 = $page*10;
-            $query = "SELECT * FROM $type WHERE 
-            api_id=:api_id AND  $col_  LIMIT :limit OFFSET :offset";
+            $query = "SELECT * FROM $type 
+            WHERE api_id=:api_id 
+                AND  $col_  
+            LIMIT :limit 
+            OFFSET :offset";
             $execute = ['api_id'=>$id, ':limit'=>10, ':offset'=>$page1];
         }
         elseif(!$search and !$page and $load){
-            $query = "SELECT * FROM $type WHERE 
-            api_id=:api_id AND  $col_  LIMIT :limit";
+            $query = "SELECT * FROM $type 
+            WHERE api_id=:api_id 
+                AND  $col_  LIMIT :limit";
             $execute = ['api_id'=>$id, ':limit'=>$load];
         }
         elseif($search and $page and !$load){
             $page1 = $page*10;
-            $query = "SELECT * FROM $type WHERE 
-            api_id=:api_id AND  $col_ LIKE :search  LIMIT :limit OFFSET :offset";
+            $query = "SELECT * FROM $type 
+            WHERE api_id=:api_id 
+                AND  $col_ LIKE :search  
+            LIMIT :limit 
+            OFFSET :offset";
             $execute = ['api_id'=>$id,':search'=>"%$search%", 'limit'=>10, ':offset'=>$page1];
         }
         elseif($search and !$page and $load){
-            $query = "SELECT * FROM $type WHERE 
-            api_id=:api_id AND  $col_ LIKE :search  LIMIT :limit";
+            $query = "SELECT * FROM $type 
+            WHERE api_id=:api_id 
+                AND  $col_ LIKE :search  
+            LIMIT :limit";
             $execute = ['api_id'=>$id,':search'=>"%$search%", ':limit'=>$load];
         }
         else{
-            $query = "SELECT * FROM $type WHERE api_id=:api_id LIMIT 0";
+            $query = "SELECT * FROM $type 
+            WHERE api_id=:api_id 
+            LIMIT 0";
             $execute = ['api_id'=>$id];
         }
     }
     else{
-        $query = "SELECT * FROM $type WHERE api_id=:api_id";
+        $query = "SELECT * FROM $type 
+        WHERE api_id=:api_id";
         $execute = ['api_id'=>$id];
         
 

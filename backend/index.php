@@ -5,6 +5,7 @@
 //     'samesite' => 'None'    
 // ]);
 
+date_default_timezone_set("UTC");
 
 require_once __DIR__.'/register/signup1.php';
 require_once __DIR__.'/register/email.php';
@@ -107,13 +108,14 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         isset($post['login'])
         and isset($post['email'])
         and isset($post['password'])
+        and isset($post['rememberMe'])
     ){
         if(
             !empty($post['email'])
             and !empty($post['password'])
         ){
             
-            login($post['email'],$post['password']);
+            login($post['email'],$post['password'],$post['rememberMe']);
         }else{
             echo json_encode(['message'=>'no']);
             exit();

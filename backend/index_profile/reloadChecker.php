@@ -13,7 +13,19 @@
             }
         }
         else{
-            echo json_encode(['message'=>'no']);
+            if(isset($_COOKIE['remember_me'])){
+                $checker = token_checker($_COOKIE['remember_me']);
+                if($checker){
+                    echo json_encode(['message'=>$checker]);
+                }
+                else{
+                    echo json_encode(['message'=>'no']);
+                }
+            }
+            else{
+                echo json_encode(['message'=>'no']);
+            }
+
         }
     }
 ?>

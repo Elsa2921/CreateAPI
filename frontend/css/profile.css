@@ -63,22 +63,6 @@ body{
     
 }
 
-.btn-box .read{
-    background-color: var(--middle-blue);
-    border-color: var(--middle-blue);
-}
-
-
-.btn-box button:nth-child(3){
-    background-color: var(--pink);
-    border-color: var(--pink);
-    
-}
-
-.btn-box .delete_btn{
-    background-color: var(--light-blue);
-    border-color: var(--light-blue);
-}
 
 .gear-area{
     width: 300px;
@@ -143,14 +127,29 @@ body{
 
 
 
+.delete_permission_cont{
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(1, 1, 1, .7);
+    z-index: 100;
+    transform: scale(0);
+    transition: .7s ease;
+}
+
+
+.delete_permission_area{
+    width: 500px;
+    height: 200px;
+    background-color: lightgray;
+    border-radius: 20px;
+    padding: 20px;
+}
 
 
 
-
-
-
-
-
+.delete_permission_area b{
+    color: var(--middle-blue);
+}
 
 
 

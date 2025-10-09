@@ -3,7 +3,9 @@
 
 function view_get_api($name,$type){
     global $class;
-    $stmt = $class->query("SELECT * FROM api_names WHERE api_name=:api_name AND type=:type",
+    $stmt = $class->query("SELECT * FROM api_names 
+    WHERE api_name=:api_name 
+    AND type=:type",
     ['api_name'=>$name, 'type'=>$type],2);
 
     $id=  false;
@@ -21,7 +23,8 @@ function view_get_api($name,$type){
 
 function view_getAll($id,$type){
     global $class;
-    $stmt = $class->query("SELECT * FROM $type WHERE api_id=:api_id",
+    $stmt = $class->query("SELECT * FROM $type 
+    WHERE api_id=:api_id",
     ['api_id' => $id],2);
     $data =[];
     if($stmt->rowCount()>0){

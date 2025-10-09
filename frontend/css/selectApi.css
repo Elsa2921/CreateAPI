@@ -22,22 +22,6 @@
     color: var(--dark-blue);
 }
 
-
-.header-text-area h1{
-    font-size: clamp(20px ,2.5vw ,45px);
-    letter-spacing: .5px;
-    margin-bottom: 20px;
-    display: inline;
-}
-
-.header-text-area p{
-    color: var(--dark-blue);
-}
-
-.header-text-dark{
-    color: var(--middle-blue);
-}
-
 form{
     width: 900px;
 }
@@ -67,22 +51,6 @@ form{
     margin-right: 5px;
 }
 
-.btn-block button{
-    padding: 12px 150px;
-    border: 2px solid var(--yellow);
-    background-color: var(--yellow);
-    color: white;
-    border-radius: 8px;
-    transition: .4s ease;
-    font-weight: 500;
-}
-
-.btn-block button:hover{
-    background-color: white;
-    color: var(--yellow);
-}
-
-
 
 
 @media(max-width:992px){
@@ -100,9 +68,6 @@ form{
 
     .selectApi_form :nth-child(3) div{
         padding-right: 65px;
-    }
-    .btn-block button{
-        padding: 11px 120px;
     }
 }
 
@@ -141,11 +106,6 @@ form{
         width: 100%;
     }
 
-
-
-    .header-text-area p{
-        font-size: 15px;
-    }
 
     .selectApi_form{
         flex-direction: column;

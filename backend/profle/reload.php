@@ -30,16 +30,12 @@ function g_p(){
 
 function delete_api($id,$type){
     global $class;
-    $class->query("DELETE FROM api_names WHERE id=:id",
+    $class->query("DELETE FROM api_names 
+    WHERE id=:id",
 ['id'=>$id],2);
-    if(is_null($type)){
-        $class->query("DELETE FROM $type WHERE api_id=:api_id",
-    ['api_id'=>$id],2);
-        echo json_encode(['message'=>'ok']);
-    }
-    else{
-        echo json_encode(['message'=>'ok']);
-    }
+
+    echo json_encode(['message'=>'ok']);
+    
 
     
 }
@@ -61,35 +57,67 @@ function continue_($id,$name){
 
 
 function api_status($id,$status){
-   global $class;
-   $class->query(
-    "UPDATE api_names SET public=:public WHERE id=:id",
-    ['public'=>$status, 'id'=>$id],2
-   );
-    echo json_encode(['message'=>'ok']);
+    $user_id = $_SESSION['id'] ?? '';
+    if(!empty($user_id)){
+        global $class;
+        $class->query(
+            "UPDATE api_names 
+            SET public=:public 
+            WHERE id=:id
+                AND user_id=:user_id",
+            [
+                ':public'=>$status,
+                ':id'=>$id,
+                ':user_id'=>$user_id],2
+        );
+        echo json_encode(['message'=>'ok']);
+    }
+   
 }
 
 
 
 function edit_username($id,$name){
-    global $class;
-    $class->query(
-        "UPDATE api_names SET api_name=:api_name WHERE id=:id",
-        ['api_name'=>$name, 'id'=>$id],2
-    );
+    $user_id = $_SESSION['id'] ?? '';
+    if(!empty($user_id)){
+        global $class;
+        $class->query(
+            "UPDATE api_names 
+            SET api_name=:api_name 
+            WHERE id=:id
+                AND user_id=:user_id",
+            [
+                ':api_name'  =>  $name,
+                ':id'        =>  $id,
+                ':user_id'   =>  $user_id
+            ],2
+        );
+    }
     echo json_encode(['message'=>'ok']);
+   
 }
 
 
 
 
 function read_notif($id){
-    global $class;
-    $class->query(
-        "UPDATE notifications SET readed=:readed WHERE id=:id",
-        ['readed'=>1, 'id'=>$id],2
-    );
+    $user_id = $_SESSION['id'] ?? '';
+    if(!empty($user_id)){
+        global $class;
+        $class->query(
+            "UPDATE notifications 
+            SET readed=:readed 
+            WHERE id=:id
+                AND to_=:user_id",
+            [
+                ':readed'  =>  1,
+                ':id'      =>  $id,
+                ':user_id'     =>  $user_id
+            ],2
+        );
+    }
     echo json_encode(['message'=>'ok']);
+    
 }
 
 
@@ -99,20 +127,50 @@ function  allow_notif($id,$api_id,$to){
         $getEmail = getEmailForToken($to);
         if($getEmail){
             global $class;
-            $class->query(
-                "UPDATE notifications SET readed=:readed WHERE id=:id",
-                ['readed'=>1, 'id'=>$id],2
-            );
-            $class->query("INSERT INTO notifications
-            (from_, to_, api_id, type_) VALUES 
-            (:from_,:to_,:api_id, :type_)",
-            ['from_'=>$m_id, 'to_'=>$to, 'api_id'=>$api_id , 'type_'=> 2],1);
-            $class->query(
-                "INSERT INTO private_apis (user_id,api_id, token) 
-                VALUES (:user_id, :api_id, :token)",
-                [':user_id'=>$to, ':api_id'=>$api_id, ':token'=>$getEmail],1
-            );
-            echo json_encode(['message'=>'ok']);
+
+            try{
+                $class->beginTransaction();
+                $class->query(
+                    "UPDATE notifications 
+                    SET readed=:readed 
+                    WHERE id=:id
+                        AND to_ = :user_id
+                    ",
+                    [
+                        ':readed'      =>  1,
+                        ':id'          =>  $id,
+                        ':user_id'     =>  $m_id
+    
+                    ],2
+                );
+    
+    
+                $class->query("INSERT INTO notifications
+                (from_, to_, api_id, type_) 
+                VALUES (:from_,:to_,:api_id, :type_)",
+                [
+                    ':from_'=>$m_id, 
+                    ':to_'=>$to, 
+                    ':api_id'=>$api_id ,
+                    ':type_'=> 2],1);
+    
+                $class->query(
+                    "INSERT INTO private_apis 
+                    (user_id,api_id, token) 
+                    VALUES (:user_id, :api_id, :token)",
+                    [
+                        ':user_id'=>$to,
+                        ':api_id'=>$api_id,
+                        ':token'=>$getEmail],1
+                );
+                $class->commit();
+                echo json_encode(['message'=>'ok']);
+            }
+            catch (Exception){
+                $class->rollBack();
+                echo json_encode(['error' => 'Something went wrong, try later']);
+
+            }
         } 
         else{
             echo json_encode(['message' => 'no']);
@@ -128,15 +186,34 @@ function  deny_notif($id,$api_id,$to){
     $m_id = $_SESSION['id'] ?? '';
     if(!empty($m_id)){
         global $class;
-        $class->query(
-            "UPDATE notifications SET readed=:readed WHERE id=:id",
-            ['readed'=>1, 'id'=>$id],2
-        );
-        $class->query("INSERT INTO notifications
-        (from_, to_, api_id, type_) VALUES 
-        (:from_,:to_,:api_id, :type_)",
-        ['from_'=>$m_id, 'to_'=>$to, 'api_id'=>$api_id , 'type_'=> 3],1);
-        echo json_encode(['message'=>'ok'],1);
+
+        try{
+            $class->beginTransaction();
+            $class->query(
+                "UPDATE notifications 
+                SET readed=:readed 
+                WHERE id=:id",
+                [
+                    ':readed'=>1,
+                    ':id'=>$id],2
+            );
+            $class->query("INSERT INTO notifications
+            (from_, to_, api_id, type_) VALUES 
+            (:from_,:to_,:api_id, :type_)",
+            [
+                ':from_'=>$m_id,
+                ':to_'=>$to,
+                ':api_id'=>$api_id , 
+                ':type_'=> 3],1);
+            $class->commit();
+            echo json_encode(['message'=>'ok'],1);
+        }
+        catch (Exception){
+            $class->rollBack();
+            echo json_encode(['error'=>'something went wrong try later']);
+
+        }
+        
     }
     else{
         echo json_encode(['message' => 'no']);
@@ -150,7 +227,10 @@ function all_read(){
     if(!empty($id)){
         global $class;
         $class->query(
-            "UPDATE notifications SET readed=:readed WHERE to_=:to_ AND type_!=:type_",
+            "UPDATE notifications 
+            SET readed=:readed 
+            WHERE to_=:to_ 
+            AND type_!=:type_",
             ['readed'=>1, 'to_'=>$id, 'type_'=>1],2
         );
 

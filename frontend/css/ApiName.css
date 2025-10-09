@@ -27,21 +27,6 @@
     outline: none;
 }
 
-#apiName_form button{
-    width: 180px;
-    height: 50px;
-    border: 2px solid var(--pink);
-    background-color: var(--pink);
-    color: white;
-    border-radius: 8px;
-    transition: .4s ease;
-}
-
-
-#apiName_form button:hover{
-    background-color: white;
-    color: var(--pink);
-}
 .writeName img{
     width: 47%;
 
@@ -70,15 +55,6 @@
         width: 90%;
     }
 
-    #apiName_form button{
-        width: 180px;
-        height: 50px;
-        border: 2px solid var(--pink);
-        background-color: var(--pink);
-        color: white;
-        border-radius: 8px;
-        transition: .4s ease;
-    }
 }   
 
 
@@ -94,10 +70,5 @@
 @media(max-width:576px){
     #apiName_form input{
         height: 53px;
-    }
-
-    #apiName_form button{
-        width: 130px;
-        height: 42px;
     }
 }

@@ -17,7 +17,7 @@ function tablePageReload(){
                 $data['table'] = $checker;
                 $data['info'] = $_SESSION['info'];
                 if($checker['type']!== null){
-                    $tableData = tableData($checker['type'],$api_id);
+                    $tableData = tableData($checker['type'],$api_id, $id);
                     if(!empty($tableData)){
                         $data['table_data'] = $tableData;
                     }
@@ -45,14 +45,19 @@ function tablePageReload(){
 
 
 function delete_line($id,$table){
-    $checker = selectChecker($table);
-    if($checker){
-        global $class;
-        $class->query("DELETE FROM $table WHERE id=:id",
-    ["id"=>$id],2);
-
-    echo json_encode(['message'=> 'ok']);
+    $user_id = $_SESSION['id'] ?? '';
+    if(!empty($user_id)){
+        $checker = selectChecker($table);
+        if($checker){
+            global $class;
+            $class->query("DELETE FROM $table 
+            WHERE id=:id",
+        ["id"=>$id],2);
+    
+            echo json_encode(['message'=> 'ok']);
+        }
     }
+   
     else{
         echo json_encode(['message'=> 'no']);
     }
@@ -65,7 +70,8 @@ function addLine(){
     if(!empty($api_id) and !empty($type)){
         global $class;
         $class->query(
-            "INSERT INTO $type (api_id) VALUE (:api_id)",
+            "INSERT INTO $type (api_id) 
+            VALUE (:api_id)",
             ['api_id'=>$api_id],2);
         echo json_encode(['message'=> 'ok']);
     }
@@ -79,7 +85,8 @@ function edit_cols($id,$value,$col){
     $type = $_SESSION['api_type'] ?? '';
     if(!empty($type)){
         global $class;
-        $class->query("UPDATE $type SET `$col`=:v WHERE id=:id",
+        $class->query("UPDATE $type SET `$col`=:v 
+        WHERE id=:id",
     ['v'=>$value,'id'=>$id],2);
         echo json_encode(['message'=> 'ok']);
 

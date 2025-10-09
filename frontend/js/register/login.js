@@ -8,11 +8,13 @@ class Login{
             ev.preventDefault();
             let email = form.querySelector('#email').value
             let password = form.querySelector('#password').value
+            let rememberMe = form.querySelector('#remember-me').checked
             if(email.trim()!=='' && password.trim()!==''){
                 let data = {
                     'login':true,
                     'email':email,
-                    'password':password
+                    'password':password,
+                    'rememberMe':rememberMe
                 }
                 let res =await fetchPOST(data)
                 if(res.error){

@@ -57,6 +57,9 @@ window.onload = async() => {
             if(res.message=='no'){
                 window.location.href  = '../../../index.html'
             }
+            else if(res.message=='ok'){
+                location.reload();
+            }
             else{
                 
                 user_info(res.message);

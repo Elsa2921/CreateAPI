@@ -26,11 +26,6 @@ window.onload = async () => {
 
         status_()
         drawApi(m['api_info'],sessionStorage.getItem('type'));
-
-        if(m['user_info']['email']){
-            saveInfo(m['user_info']);
-        }
-
     }
     
 }
@@ -114,43 +109,41 @@ export function drawApi(data,status){
                     <div data-id='${element['id']}' class="api_ private d-flex justify-content-between align-items-center flex-column">`
                 }
             
-                str+=`<h4>
+                str+=`<h5 class="lightBlue-color">
                     ${element['api_name']}
-                    </h4>`
+                    </h5>`
                     str+=`
                 
                         <span class="w-100 text-start">
                             <i>Type: ${element['type']}</i>
                         </span>
-                        <div class="btn-box w-100 d-flex justify-content-between">
+                        <div class="w-100 d-flex justify-content-between">
                             `
                             if(element['public']==1){
-                            str+=`  <button class='links_btn' style="background-color:
-                                    rgb(51, 92, 129); border-color: rgb(51, 92, 129);"
+                            str+=`  <button class='links_btn middleBlue-btn'
                                      data-name=${element['api_name']}>
                                         Copy link <i class="fa-solid fa-paperclip"></i>
                                     </button>`
                             }
                             else{
                                 if(element['allow']){
-                                    str+=`  <button class='links_btn' style="background-color:
-                                    rgb(93,161,234); border-color: rgb(93,161,234);"
+                                    str+=`  <button class='links_btn lightBlue-btn'
                                      data-name=${element['api_name']}>
                                         Copy link <i class="fa-solid fa-paperclip"></i>
                                     </button>`
                                 }
                                 else{
-                                    str+=`<button class='permission_btn'
+                                    str+=`<button class='permission_btn pink-btn'
                                     data-id=${element['id']}>
-                                               Ask Permission
-                                           </button>`
+                                        Ask Permission
+                                    </button>`
                                 }
                                
                             }
                              str+=`
                              <a href="/create_api/backend/requests/view.php?apiView=${encodeURIComponent(true)}&name=${encodeURIComponent(element['api_name'])}&type=${encodeURIComponent(element['type'])}" 
                                     target="blank">
-                                        <button type="submit" class='view_btn'>
+                                        <button type="submit" class='view_btn yellow-btn'>
                                             <i class="fa-regular fa-eye"></i>
                                             View
                                             
@@ -160,10 +153,10 @@ export function drawApi(data,status){
                              `          
                         str+=`
                            
-                                <div class="btn-box w-100 d-flex justify-content-between flex-wrap gap-3">
+                                <div class=" w-100 d-flex justify-content-between flex-wrap gap-3">
                                     <i class='d-flex align-items-center gap-2'>  
                                         <b>Creator:  </b>
-                                        <h5 class='m-0'>  ${element['username']}</h5>
+                                        <h6 class='m-0 middleBlue-color'>  ${element['username']}</h6>
                                     </i>
                                     <span>
                                         <i>${element['date']}</i>
@@ -179,7 +172,7 @@ export function drawApi(data,status){
     
     else{
         str+=`
-        <h4>404</h4>`
+        <h5>404</h5>`
     }
     
     if(status!==3){

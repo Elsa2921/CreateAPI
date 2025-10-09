@@ -98,36 +98,6 @@
 }
 
 
-.api_ h4{
-    color: var(--light-blue);
-}
-
-.api_ h5 i{
-    font-size: calc(14px + 0.2vw);
-    color: black;
-}
-
-.api_ h5 {
-    color: var(--middle-blue);
-}
-
-
-.btn-box button{
-    padding: 5px 12px;
-    border: 2px solid;
-    border-radius: 8px;
-    color: white;   
-    font-size: calc(14px + 0.2px);
-    border-color: var(--yellow);
-    background-color: var(--yellow);
-}
-
-
-.private .btn-box .permission_btn{
-    border-color: var(--pink);
-    background-color: var(--pink);
-}
-
 .other-profile-info i{
     font-size: calc(15px + 0.3vw);
     width: 45px;

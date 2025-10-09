@@ -18,15 +18,8 @@
             unset($_SESSION['s_visit']);
         }
     }
-    $u_info= [];
     $data = [];
-    $f = false;
-    if(!empty($id)){
-        $u_info = id_checker($id);
-        // $get=get_api_notif($data,$id);
-    }
     $data = [
-        'user_info'=>$u_info,
         'api_info'=>$get
     ];
     if(!empty($i)){
@@ -49,7 +42,8 @@ function ask_permission($id){
         if($checker){
             global $class;
             $class->query(
-                "INSERT INTO notifications (from_,to_,api_id,type_) 
+                "INSERT INTO notifications 
+                (from_,to_,api_id,type_) 
                 VALUES (:from_,:to_,:api_id,:type_)",
         ['from_'=>$u, 'to_'=> $checker, 'api_id'=>$id, 'type_'=>'1'],1);
             echo json_encode(['message'=>'ok']);

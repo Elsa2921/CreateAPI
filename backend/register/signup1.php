@@ -12,9 +12,15 @@ include_once 'encrypt.php';
             $code = code();
             $e_email = encrypt($email);
             $hash_email = hash('sha256', $email);
-            $class->query("INSERT INTO users (username,email,code,email_hash,type) 
+            $class->query("INSERT INTO users 
+            (username,email,code,email_hash,type) 
             VALUES (:username,:email,:code, :hash_email, :type)",
-            ["username"=>$username,"email"=>$e_email,'code'=>$code, ":hash_email"=>$hash_email, "type"=>1],1
+            [
+                ":username"=>$username,
+                ":email"=>$e_email,
+                ':code'=>$code, 
+                ":hash_email"=>$hash_email, 
+                ":type"=>1],1
         );
             code_mailer($code,$email);
             $_SESSION['email'] = $email;

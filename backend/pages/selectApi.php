@@ -13,16 +13,39 @@ function select($type){
         if($checker){
             $id= getId($name);
             global $class;
-            $class->query(
-                "UPDATE api_names SET type=:type WHERE api_name=:api_name",
-                ["type"=>$type,"api_name"=>$name],2);
-            $class->query(
-                "INSERT INTO $type (api_id) VALUE (:api_id)",
-                ['api_id'=>$id],1);
-            $class->query("INSERT INTO private_apis (user_id, api_id, token) 
-            VALUES(:user_id, :api_id, :token)", 
-            [':user_id'=>$user_id, ':api_id'=>$id, ':token' => $cookie],1);
-            echo json_encode(['message'=>'ok']);
+            try{
+                $class->beginTransaction();
+                $class->query(
+                    "UPDATE api_names SET type=:type
+                    WHERE api_name=:api_name 
+                        AND user_id = :id",
+                    [
+                        ":type"=>$type,
+                        ":api_name"=>$name, 
+                        ':id' => $user_id],2);
+    
+                $class->query(
+                    "INSERT INTO $type (api_id) 
+                    VALUE (:api_id)",
+                    [':api_id'=>$id],1);
+    
+                $class->query("INSERT INTO private_apis 
+                    (user_id, api_id, token) 
+                    VALUES(:user_id, :api_id, :token)", 
+                [
+                    ':user_id'=>$user_id, 
+                    ':api_id'=>$id, 
+                    ':token' => $cookie],1);
+
+                $class->commit();
+                echo json_encode(['message'=>'ok']);
+            }
+            catch (Exception){
+                $class->rollBack();
+                echo json_encode(['error'=>'something is wrong']);
+
+
+            }
         }
         else{
             echo json_encode(['error'=>'something is wrong']);

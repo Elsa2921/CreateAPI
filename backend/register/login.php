@@ -1,18 +1,31 @@
 <?php
  require_once __DIR__.'/../checkers/register.php';
-function login($email,$password){
+ require_once __DIR__.'/../setCookie.php';
+function login($email,$password,$rememberMe){
     $checker = login_checker($email,$password);
     if($checker){
-        if($checker)
-            if($checker=='g'){
-                $h_value = hash_hmac('sha256', $email, 'createApi$qkey5784');
-                $_SESSION['userToken_CreateApi'] = $h_value;
-                // setCookieForUser($email);
-                echo json_encode(['message'=>'ok']);
+       
+        if($checker=='a'){
+            echo json_encode(['error'=>'this account is not created with email, try something else']);
+        }
+        else{
+            $h_value = hash_hmac('sha256', $email, 'createApi$qkey5784');
+            $_SESSION['userToken_CreateApi'] = $h_value;
+            $expires = $rememberMe ? 86400 * 30 : 86400;
+            global $class;
+            $token = bin2hex(random_bytes(32));
+          
+            $day = 1;
+           
+            if($rememberMe){
+                $day = 30;
+                
             }
-            elseif($checker=='a'){
-                echo json_encode(['error'=>'this account is not created with email, try something else']);
-            }
+            $expires = 86400 * $day;
+            setDbToken($day,$checker,$token);
+            setCookieForUser($token,$expires);
+            echo json_encode(['message'=>'ok']);
+        }
        
     }
     elseif($checker=='n'){

@@ -1,4 +1,6 @@
 <?php
+
+use Google\Service\CloudDeploy\Rollback;
 session_start();
 require_once __DIR__.'/../register/use.php';
 class Base{
@@ -27,6 +29,22 @@ class Base{
         }
     }
 
+    public function commit(){
+        $pdo = $this->connect();
+        return $pdo->commit();
+    }
+
+
+    public function beginTransaction(){
+        $pdo = $this->connect();
+        return $pdo->beginTransaction();
+    }
+
+
+    public function rollBack(){
+        $pdo = $this->connect();
+        return $pdo->rollBack();
+    }
 
     public function query($prepare,$execute,$type){
         $pdo = $this->connect();
@@ -36,6 +54,7 @@ class Base{
         $data = ($type==1)? $pdo->lastInsertId() : $stmt;
         return $data;
     }
+
 }
 
 $class = new Base($_ENV['APP_DB_USERNAME'],$_ENV['APP_DB_PASSWORD'],$_ENV['APP_DB_NAME']);

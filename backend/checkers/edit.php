@@ -6,7 +6,9 @@
 
 function usernameChecker($username,$id){
     global $class;
-    $stmt=  $class->query("SELECT username FROM users WHERE username=:username",
+    $stmt=  $class->query("SELECT username 
+    FROM users 
+    WHERE username=:username",
     ['username'=>$username],2);
     $status=  true;
     if($stmt->rowCount()>0){
@@ -20,7 +22,11 @@ function usernameChecker($username,$id){
 
 function passChecker($password,$id){
     global $class;
-    $stmt = $class->query("SELECT id,password FROM users WHERE id=:id",
+    $stmt = $class->query("SELECT 
+    id,
+    password 
+    FROM users 
+    WHERE id=:id",
     ['id'=>$id],2);
     $status = false;
     if($stmt->rowCount()>0){

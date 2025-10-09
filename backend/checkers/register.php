@@ -59,7 +59,13 @@ function code_checker($code){
 function login_checker($email,$password){
     global $class;
     $hash = hash('sha256',$email);
-    $stmt = $class->query("SELECT id,email,password,username,type FROM users WHERE email_hash=:email_hash",
+    $stmt = $class->query("SELECT id,
+    email,
+    password,
+    username,
+    type 
+    FROM users 
+    WHERE email_hash=:email_hash",
     ['email_hash'=>$hash], 2);
     $flag = false;
     if($stmt->rowCount()>0){
@@ -79,12 +85,12 @@ function login_checker($email,$password){
                         'username'=>$data['username'],
                         'id'=>$data['id']
                     ];
-                    $flag = 'g';
+                    $flag = $data['id'];
                 }
             }
         }
         
-        
+            
         
     }
     return $flag;

@@ -3,12 +3,13 @@
 function api_name($name){
     $id = $_SESSION['id'] ?? '';
     if(!empty($id)){
-        $checker = apiNameChecker($name);
-        if($checker){
-            $_SESSION['apiName'] = $name;
-            global $class;
-            $class->query("INSERT INTO api_names (user_id,api_name) VALUES (:user_id,:api_name)",
-        ['user_id'=>$id, 'api_name'=>$name],1);
+        $_SESSION['apiName'] = $name;
+        global $class;
+        $inserted_id = $class->query("INSERT IGNORE INTO 
+        api_names (user_id,api_name) 
+        VALUES (:user_id,:api_name)",
+    ['user_id'=>$id, 'api_name'=>$name],1);
+        if($inserted_id){
             echo json_encode(['message'=>'ok']);
         }
         else{

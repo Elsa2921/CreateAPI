@@ -2,7 +2,7 @@
 
 // require_once '../vendor/autoload.php';
  require_once __DIR__.'/../base/base.php';
-//  require_once __DIR__.'/../setCookie.php';
+ require_once __DIR__.'/../setCookie.php';
 require_once 'encrypt.php';
 
 function gg_auth($id_token){
@@ -32,12 +32,6 @@ function gg_auth($id_token){
 
 
 
-
-
-
-
-$class = new Base($_ENV['APP_DB_USERNAME'],$_ENV['APP_DB_PASSWORD'],$_ENV['APP_DB_NAME']);
-
 function base_checker($email){
     global $class;
     $pdo = $class->connect();
@@ -57,8 +51,15 @@ function base_checker($email){
                 'id'=>$data['id']
             ];
             $h_value = hash_hmac('sha256', $email, 'createApi$qkey5784');
-                    $_SESSION['userToken_CreateApi'] = $h_value;
+            $_SESSION['userToken_CreateApi'] = $h_value;
             $_SESSION['email'] = $email;
+            $expires = 86400 * 30;
+            global $class;
+            $token = bin2hex(random_bytes(32));
+            $day = 30;
+            setDbToken($day,$data['id'],$token);
+            setCookieForUser($token,$expires);
+
             echo json_encode(["status" => "success", "email" => $email, "username" => $data['username'], 'id'=>$data['id']]);
         }
         
@@ -92,15 +93,25 @@ function  add_($email,$username){
     $pdo = $class->connect();
     $e_email = encrypt($email);
     $hash_email = hash('sha256', $email);
-    $stmt = $pdo->prepare("INSERT INTO users (email,username,email_hash,type) 
+    $stmt = $pdo->prepare("INSERT INTO users 
+    (email,username,email_hash,type) 
     VALUES (:email,:username, :hash_email, :type)");
-    $stmt->execute([':email'=>$e_email, ':username'=>$username, ":hash_email"=>$hash_email, ":type"=>2]);
+    $stmt->execute(
+        [
+            ':email'=>$e_email,
+            ':username'=>$username, 
+            ":hash_email"=>$hash_email,
+            ":type"=>2]);
+
     $_SESSION['id']= $pdo->lastInsertId();
+    
     $_SESSION['info'] = [
         'username'=>$username,
         'id'=>$pdo->lastInsertId()
     ];
     $_SESSION['email'] = $email;
+    $h_value = hash_hmac('sha256', $email, 'createApi$qkey5784');
+    $_SESSION['userToken_CreateApi'] = $h_value;
     echo json_encode(["status" => "success", "email" => $email, "username" => $username]);
 
 }

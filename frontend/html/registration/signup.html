@@ -16,7 +16,7 @@
     <section>
         <div class="container-fluid login">
             <div class="container register login_">
-                <div class="form-box">
+                <div class="form-box d-flex justify-content-start align-items-center flex-column gap-4">
                     <div class="back">
                         <a href="../../../index.html">
                             <i class="fa-solid fa-arrow-left" id="toIndex"></i>
@@ -38,22 +38,17 @@
                         <span class="text-center w-100">or</span>
                     </div>
 
-                    <form id="signup_form"> 
+                    <form id="signup_form"  class="d-flex justify-content-start align-items-center flex-column gap-4"> 
                         <div class="email-box">
                             <input type="text" id="username"  maxlength="15" minlength="3" required>
                             <label for="username">Write username</label>
                         </div>
-                        <br>
-                        <br>
                         <div class="email-box">
                             <input type="email" id="email"  required>
                             <label for="email">Write your email</label>
                         </div>
-                        <br>
-                        <br>
                         <button type="submit" class="form-btn">Next</button>
                     </form>
-                    <br>
                     <span>Already have an account? <a href="login.html">Sign In</a> </span>
                 </div>
             </div>
