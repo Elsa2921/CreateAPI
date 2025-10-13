@@ -2,6 +2,8 @@
  require_once __DIR__.'/../checkers/link.php';
 
 function get_api_name_viaLink($uri){
+    #parse_url
+    #parse_str
     $arr = explode('/',$uri);
     $new = $arr[count($arr)-1];
     $a = explode('?',$new);
