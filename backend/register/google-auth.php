@@ -50,7 +50,7 @@ function base_checker($email){
                 'username'=>$data['username'],
                 'id'=>$data['id']
             ];
-            $h_value = hash_hmac('sha256', $email, 'createApi$qkey5784');
+            $h_value = hash_hmac('sha256', $email, $_ENV['APP_TOKEN_HASH']);
             $_SESSION['userToken_CreateApi'] = $h_value;
             $_SESSION['email'] = $email;
             $expires = 86400 * 30;
@@ -110,7 +110,7 @@ function  add_($email,$username){
         'id'=>$pdo->lastInsertId()
     ];
     $_SESSION['email'] = $email;
-    $h_value = hash_hmac('sha256', $email, 'createApi$qkey5784');
+    $h_value = hash_hmac('sha256', $email, $_ENV['APP_TOKEN_HASH']);
     $_SESSION['userToken_CreateApi'] = $h_value;
     echo json_encode(["status" => "success", "email" => $email, "username" => $username]);
 

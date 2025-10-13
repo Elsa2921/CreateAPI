@@ -12,7 +12,7 @@ function getEmailForToken($id){
     if($stmt->rowCount()>0){
         $data = $stmt->fetchColumn();
         $decrypt = decrypt($data);
-        $flag  = hash_hmac('sha256', $decrypt, 'createApi$qkey5784');
+        $flag  = hash_hmac('sha256', $decrypt, $_ENV['APP_TOKEN_HASH']);
     }
 
     return $flag;

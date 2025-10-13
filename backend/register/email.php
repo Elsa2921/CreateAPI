@@ -15,7 +15,9 @@ function email($email,$type){
                 code_mailer($code,$email);
                 global $class;
                 $hash_email = hash('sha256', $email);
-                $class->query("UPDATE users SET code=:code WHERE email_hash=:email",
+                $class->query("UPDATE users 
+                SET code=:code 
+                WHERE email_hash=:email",
                 ['email'=>$hash_email, 'code'=>$code],2
                 );
                 echo json_encode(['message'=>'ok']);
@@ -68,7 +70,9 @@ function new_code(){
         $code = code();
         $hash_email = hash('sha256', $email);
         code_mailer($code,$email);
-        $class->query("UPDATE users SET code=:code WHERE email_hash=:email",
+        $class->query("UPDATE users 
+        SET code=:code 
+        WHERE email_hash=:email",
             ['code'=>$code ,'email'=>hash('sha256', $email)],2
         );
         echo json_encode(['message'=>'ok']);

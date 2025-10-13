@@ -8,7 +8,9 @@ function editUsername($username){
        $checker =  usernameChecker($username,$id);
        if($checker){
         global $class;
-        $class->query("UPDATE users SET username= :username WHERE id=:id",
+        $class->query("UPDATE users 
+        SET username= :username 
+        WHERE id=:id",
         ["username"=>$username, "id"=>$id],2);
         $_SESSION['info']['username'] = $username;
         

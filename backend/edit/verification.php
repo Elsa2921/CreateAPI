@@ -13,14 +13,17 @@ function verification_n($code){
                 global $class;
                 $e_email = encrypt($email);
                 $hash_email = hash('sha256', $email);
-                $class->query("UPDATE users SET email=:email,email_hash=:hash WHERE id=:id",
+                $class->query("UPDATE users 
+                SET email=:email,
+                email_hash=:hash 
+                WHERE id=:id",
                 ['email'=>$e_email,':hash'=>$hash_email,'id'=>$id],2);
                 $_SESSION['info']['email'] = $email;
                 update_apiTokens($id,$email);
                 unset($_SESSION['edit_email']);
                 unset($_SESSION['edit_code']);
 
-                $h_value = hash_hmac('sha256', $email, 'createApi$qkey5784');
+                $h_value = hash_hmac('sha256', $email, $_ENV['APP_TOKEN_HASH']);
                 $_SESSION['userToken_CreateApi'] = $h_value;
                 // setCookieForUser($email);
 
@@ -45,8 +48,10 @@ function verification_n($code){
 
 function update_apiTokens($id,$value){
     global $class;
-    $h_value = hash_hmac('sha256', $value, 'createApi$qkey5784');
-    $class->query("UPDATE private_apis SET token=:token WHERE user_id=:user_id",
+    $h_value = hash_hmac('sha256', $value, $_ENV['APP_TOKEN_HASH']);
+    $class->query("UPDATE private_apis 
+    SET token=:token 
+    WHERE user_id=:user_id",
 [':token'=>$h_value, ':user_id'=>$id],2);
 }
 ?>

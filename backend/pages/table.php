@@ -50,9 +50,13 @@ function delete_line($id,$table){
         $checker = selectChecker($table);
         if($checker){
             global $class;
-            $class->query("DELETE FROM $table 
-            WHERE id=:id",
-        ["id"=>$id],2);
+            $class->query("DELETE t FROM $table AS t
+            INNER JOIN api_names AS an
+                ON an.id = t.api_id
+            WHERE t.id=:id
+                AND an.user_id = :user_id
+            ",
+        [":id"=>$id,":user_id"=>$user_id],2);
     
             echo json_encode(['message'=> 'ok']);
         }

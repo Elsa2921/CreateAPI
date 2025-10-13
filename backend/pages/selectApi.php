@@ -18,11 +18,11 @@ function select($type){
                 $class->query(
                     "UPDATE api_names SET type=:type
                     WHERE api_name=:api_name 
-                        AND user_id = :id",
+                        AND user_id = :user_id",
                     [
                         ":type"=>$type,
                         ":api_name"=>$name, 
-                        ':id' => $user_id],2);
+                        ':user_id' => $user_id],2);
     
                 $class->query(
                     "INSERT INTO $type (api_id) 
@@ -40,9 +40,10 @@ function select($type){
                 $class->commit();
                 echo json_encode(['message'=>'ok']);
             }
-            catch (Exception){
+            catch (Exception $e){
                 $class->rollBack();
-                echo json_encode(['error'=>'something is wrong']);
+                throw $e;
+                // echo json_encode(['error'=>'something is wrong']);
 
 
             }

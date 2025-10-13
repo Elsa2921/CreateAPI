@@ -29,10 +29,15 @@ function g_p(){
 
 
 function delete_api($id,$type){
-    global $class;
-    $class->query("DELETE FROM api_names 
-    WHERE id=:id",
-['id'=>$id],2);
+    $user_id = $_SESSION['id'] ?? '';
+    if(!empty($user_id)){
+        global $class;
+        $class->query("DELETE FROM api_names 
+        WHERE id=:id
+            AND user_id = :u_id",
+    [':id'=>$id, ':u_id'=>$user_id],2);
+    }
+    
 
     echo json_encode(['message'=>'ok']);
     

@@ -27,7 +27,9 @@ function setDbToken($days,$id,$token){
         $exp = $dt->format('Y-m-d H:i:s');
     }
     
-    $class->query("UPDATE users SET token=:token,exp_date=:exp_date WHERE id=:id",
+    $class->query("UPDATE users 
+    SET token=:token,exp_date=:exp_date 
+    WHERE id=:id",
     ['token'=>$token,'exp_date'=>$exp, 'id'=> $id],2);
 }
 ?>

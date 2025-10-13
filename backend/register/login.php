@@ -9,12 +9,9 @@ function login($email,$password,$rememberMe){
             echo json_encode(['error'=>'this account is not created with email, try something else']);
         }
         else{
-            $h_value = hash_hmac('sha256', $email, 'createApi$qkey5784');
+            $h_value = hash_hmac('sha256', $email, $_ENV['APP_TOKEN_HASH']);
             $_SESSION['userToken_CreateApi'] = $h_value;
-            $expires = $rememberMe ? 86400 * 30 : 86400;
-            global $class;
-            $token = bin2hex(random_bytes(32));
-          
+            $token = bin2hex(random_bytes(32));          
             $day = 1;
            
             if($rememberMe){
