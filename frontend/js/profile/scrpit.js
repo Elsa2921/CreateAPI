@@ -77,9 +77,9 @@ function drawE(){
 function logout(){
     document.getElementById('logout').addEventListener('click',async function(){
         sessionStorage.clear();
-        let res = await fetchDELETE({'logout':true})
+
+        await fetchDELETE('logout')
         location.reload();
-        // window.location.href = '../../../backend/profle/logout.php';
 
     })
 }

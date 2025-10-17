@@ -15,7 +15,7 @@ function tablePageReload(){
             $checker = tableReload($api_id);
             if(!empty($checker)){
                 $data['table'] = $checker;
-                $data['info'] = $_SESSION['info'];
+                $data['info'] = ['username'=>$_SESSION['info']['username']];
                 if($checker['type']!== null){
                     $tableData = tableData($checker['type'],$api_id, $id);
                     if(!empty($tableData)){

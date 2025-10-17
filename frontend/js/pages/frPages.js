@@ -1,7 +1,7 @@
 import {fetchGET} from "../script.js";
 window.onload = async() => {
-    let data = {"PageReload" : true}
-    let res = await fetchGET(data);
+    let p = 'users'
+    let res = await fetchGET(p);
 
     if(res.message){
         if(res.message=='no'){
@@ -9,8 +9,8 @@ window.onload = async() => {
         }
         else{
             let data = res.message
-            sessionStorage.setItem('id',data['id'])
-            sessionStorage.setItem('email',data['email'])
+            // sessionStorage.setItem('id',data['id'])
+            // sessionStorage.setItem('email',data['email'])
             sessionStorage.setItem('username',data['username'])
         }
     }

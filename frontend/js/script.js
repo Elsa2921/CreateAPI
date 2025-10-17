@@ -35,10 +35,10 @@ function regex_p(){
 
 
 
-async function fetchAPI(url, data = {}, method = "GET") {
+async function fetchAPI(url,part='' ,data = {}, method = "GET") {
     try {
         let options = { method, headers: {} };
-        let finalURL = url;
+        let finalURL = url+=`/${part}`;
 
         if (["GET", "DELETE"].includes(method)) {
             const params = new URLSearchParams(data).toString();
@@ -62,9 +62,9 @@ async function fetchAPI(url, data = {}, method = "GET") {
 }
 const link = '/create_api/backend/index.php'
 
-export const fetchGET = (data) => fetchAPI(link, data, 'GET');
-export const fetchPOST = (data) => fetchAPI(link, data, 'POST');
-export const fetchPUT = (data) => fetchAPI(link, data, 'PUT');
-export const fetchDELETE = (data) => fetchAPI(link, data, 'DELETE');
+export const fetchGET = (part,data={}) => fetchAPI(link,part, data, 'GET');
+export const fetchPOST = (part,data) => fetchAPI(link,part, data, 'POST');
+export const fetchPUT = (part,data) => fetchAPI(link,part, data, 'PUT');
+export const fetchDELETE = (part,data={}) => fetchAPI(link,part,data, 'DELETE');
 
 

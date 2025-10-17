@@ -15,7 +15,8 @@ class Password{
                         'password':password,
                         'c_password':c_password
                     }
-                    let res = await fetchPOST(data)
+                    let p = 'users'
+                    let res = await fetchPOST(p,data)
                     if(res.error){
                         alert_message(res.error)
                     }

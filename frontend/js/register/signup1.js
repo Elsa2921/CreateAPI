@@ -13,13 +13,14 @@ class Registration{
                 alert_message('invalid field')
             }
             else if(checker['username'] && checker['email']){
+                 let p = 'users'
                 let data = {
-                    'signup1':true,
                     'username':username,
                     'email':email
                 }
+               
 
-                let res = await fetchPOST(data)
+                let res = await fetchPOST(p,data)
                 if(res.error){
                     alert_message(res.error)
                 }

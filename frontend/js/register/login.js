@@ -10,13 +10,14 @@ class Login{
             let password = form.querySelector('#password').value
             let rememberMe = form.querySelector('#remember-me').checked
             if(email.trim()!=='' && password.trim()!==''){
+                let p = 'users'
                 let data = {
                     'login':true,
                     'email':email,
                     'password':password,
                     'rememberMe':rememberMe
                 }
-                let res =await fetchPOST(data)
+                let res =await fetchPOST(p,data)
                 if(res.error){
                     alert_message(res.error)
                 }

@@ -3,11 +3,8 @@ import {copy_link} from "../pages/link.js"
 
 
 window.onload = async() => {
-    let data = {
-        "reload1" : true,
-        'profile':true
-    }
-    let res = await fetchGET(data);
+    let p = 'profile'
+    let res = await fetchGET(p);
     if(document.querySelector('.menu_')){
         draw(res);
     }
@@ -113,11 +110,12 @@ function notif_count(d){
 
 function all_readed(){
     document.getElementById('readAll_notif').addEventListener('click',async function(){
+        let p = `notification`
         let data = {
-            'all_read_notif':true,
+            'readAll':true
         }
-        fetchPOST(data);
-            location.reload()
+        fetchPOST(p,data);
+        location.reload()
     })
 }
 
@@ -128,14 +126,14 @@ function allow(){
             let id = element.getAttribute('data-id');
             let api_id = element.getAttribute('data-api-id');
             let from = element.getAttribute('data-from');
+            let p = `notification/${id}`
             let data = {
-                'allow_notif':true,
-                'id':id,
+                'notif':true,
                 'api_id':api_id,
                 'from':from
             }
 
-            fetchPOST(data);
+            fetchPOST(p,data);
             location.reload()
         })  
     })
@@ -149,14 +147,14 @@ function deny(){
             let id = element.getAttribute('data-id');
             let api_id = element.getAttribute('data-api-id');
             let from = element.getAttribute('data-from');
+            let p = `notification/${id}`
             let data = {
-                'deny_notif':true,
-                'id':id,
+                'notif':false,
                 'api_id':api_id,
                 'from':from
             }
 
-            fetchPOST(data);
+            fetchPOST(p,data);
             location.reload()
         })  
     })
@@ -167,12 +165,12 @@ function read_(){
     btns.forEach(element => {
         element.addEventListener('click',async function(){
             let id = element.getAttribute('data-id');
+            let p = `notification/${id}`
             let data = {
-                'read_notif':true,
-                'id':id
+                'readAll':false
             }
 
-            fetchPOST(data);
+            fetchPOST(p,data);
             location.reload()
         })  
     })
@@ -231,7 +229,7 @@ function drawApi(data){
                                         Copy link <i class="fa-solid fa-paperclip"></i>
                                     </button>
     
-                                    <a href="/create_api/backend/requests/view.php?apiView=${encodeURIComponent(true)}&name=${encodeURIComponent(element['api_name'])}&type=${encodeURIComponent(element['type'])}" 
+                                    <a href="/create_api/backend/index.php/view/${element['id']}" 
                                     target="blank">
                                         <button type="submit" class='yellow-btn view_btn'>
                                             <i class="fa-regular fa-eye"></i>
@@ -309,13 +307,12 @@ function delete_api(){
             
             console.error(prom=="1" ? 'yesss' : 'ni')
             if(prom=="1"){
+                let p = `api/${id}`
                 let data = {
-                    'delete_api':true,
-                    'id':id,
-                    'type': type
+                    'delete_api':type
                 }
 
-                let res = await fetchDELETE(data);
+                let res = await fetchDELETE(p,data);
                 if(res.message){
                     location.reload()
                 }
@@ -349,14 +346,13 @@ function edit_api(){
             let id = element.getAttribute('data-id')
             let type = element.getAttribute('data-type')
             let name = element.getAttribute('data-name')
+            let p = `api/${id}`
             let data = {
-                'edit_api':true,
-                'id':id,
                 'type': type,
                 'name':name
             }
             sessionStorage.setItem('view',true)
-            let res = await fetchPUT(data); 
+            let res = await fetchPUT(p,data); 
             if(res.message){
                 window.location.href='/create_api/frontend/html/pages/table.html'
             }
@@ -373,13 +369,13 @@ function continue_(){
         element.addEventListener('click',async function() {
             let id = element.getAttribute('data-id')
             let name = element.getAttribute('data-name')
+            let p = `api/${id}`
             let data = {
                 'continue_api':true,
-                'id':id,
                 'name':name
             }
             sessionStorage.setItem('continue',true)
-            let res = await fetchPUT(data);
+            let res = await fetchPUT(p,data);
             if(res.message){
                 window.location.href='/create_api/frontend/html/pages/selectApi.html'
             }
@@ -398,12 +394,12 @@ function api_status(){
         element.addEventListener('click',async function() {
             let id = element.getAttribute('data-id')
             let check = element.checked ? 1 : 0;
+            let p = `api/${id}`
             let data = {
-                'api_status':check,
-                'id':id,
+                'api_status':check
             
             }
-            fetchPUT(data);
+            fetchPUT(p,data);
         })
     })
 }
@@ -417,12 +413,11 @@ function api_name_edit(){
     hs.forEach(element => {
         element.addEventListener('blur',async function(){
             let id = element.getAttribute('data-id')
+            let p = `api/${id}`
             let data = {
-                'apiNameEdit':true,
-                'id':id,
-                'name': element.innerHTML
+                'apiNameEdit':element.innerHTML
             }
-            fetchPUT(data);            
+            fetchPUT(p,data);            
         })
     })
 }

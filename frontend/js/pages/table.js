@@ -9,34 +9,31 @@ if(sessionStorage.getItem('view')){
 }
 
 window.onload = async() => {
-    let data = {
-        "reload1" : true,
-        'table' : true
-    }
-        let res = await fetchGET(data);
-    
-        if(res.message){
-            if(res.message=='no'){
-                window.location.href  = '../../../index.html'
-            }
-            else{
-                let data = res.message
-                
-                // let data = 
-                document.getElementById('tableApiName').innerHTML = data['table']['api_name']
-                document.getElementById('apiType').innerHTML = "type: "+" "+data['table']['type']
-                if(data['table_data']){
-                    addLine();
-                    draw_table(data);
-                    
-                }
-               
-                sessionStorage.setItem('type',data['table']['type'])
-                sessionStorage.setItem('id',data['info']['id'])
-                sessionStorage.setItem('email',data['info']['email'])
-                sessionStorage.setItem('username',data['info']['username'])
-            }
+    let p  = 'table'
+    let res = await fetchGET(p);
+
+    if(res.message){
+        if(res.message=='no'){
+            window.location.href  = '../../../index.html'
         }
+        else{
+            let data = res.message
+            
+            // let data = 
+            document.getElementById('tableApiName').innerHTML = data['table']['api_name']
+            document.getElementById('apiType').innerHTML = "type: "+" "+data['table']['type']
+            if(data['table_data']){
+                addLine();
+                draw_table(data);
+                
+            }
+            
+            sessionStorage.setItem('type',data['table']['type'])
+            // sessionStorage.setItem('id',data['info']['id'])
+            // sessionStorage.setItem('email',data['info']['email'])
+            sessionStorage.setItem('username',data['info']['username'])
+        }
+    }
 }
 
 
@@ -100,16 +97,15 @@ function edit(){
             let value = element.innerHTML
             let id = element.getAttribute('data-id')
             let col = element.getAttribute('data-col')
+            let p = `table/${id}`
             if(value.trim()!==''){
                 let data = {
-                    'edit':true,
                     'col':col,
-                    'id':id,
                     'value':value,
-                    'table':true
+                    'tableRowEdit':true
                 }
                 
-                let res = await fetchPUT(data)
+                let res = await fetchPUT(p,data)
                 if(res.error){
                     alert(error)
                 }
@@ -131,14 +127,12 @@ function delete_line(){
                 let type  = sessionStorage.getItem('type')
                 // flag = checker(type);
                 // if(flag){
-                    
+                    let p = `table/${id}`
                     let data = {
-                        'delete_line': true,
-                        'table_type': type,
-                        'id' : id
+                        'table_type': type
                     }
         
-                    let res = await fetchDELETE(data)
+                    let res = await fetchDELETE(p,data)
                     if(res.message){
                         location.reload()
                     }
@@ -155,10 +149,11 @@ function delete_line(){
 function addLine(){
     let btn = document.getElementById('addLine')
     btn.addEventListener('click',async function() {
+        let p = 'table'
         let data=  {
             'addLine':true
         }
-        let res = await fetchPOST(data)
+        let res = await fetchPOST(p,data)
         if(res.message){
             
             location.reload()

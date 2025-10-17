@@ -1,21 +1,22 @@
 <?php
  require_once __DIR__.'/../base/base.php';
 
-function view_get_api($name,$type){
+function view_get_api($id){
     global $class;
-    $stmt = $class->query("SELECT * FROM api_names 
-    WHERE api_name=:api_name 
-    AND type=:type",
-    ['api_name'=>$name, 'type'=>$type],2);
+    $stmt = $class->query("SELECT 
+    * FROM api_names AS an
+    WHERE an.id=:api_id",
+    ['api_id'=>$id],2);
 
-    $id=  false;
     $data=  [];
+    $return = [];
     if($stmt->rowCount()>0){
         $data= $stmt->fetch(PDO::FETCH_ASSOC);
-        $id=$data['id'];
+        $return['api_name'] = $data['api_name'];
+        $return['type'] = $data['type'];
     }
 
-    return $id;
+    return $return;
     
 }
 

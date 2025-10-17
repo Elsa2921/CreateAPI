@@ -17,12 +17,12 @@ function select(){
         ev.preventDefault();
         let radio = form.querySelector('input[name="api"]:checked')
         if(radio){
+            let p = `api/${radio.value}`
             let data = {
-                'apiType':true,
-                'type':radio.value
+                'apiType':true
             }
 
-            let res = await fetchPOST(data);
+            let res = await fetchPOST(p,data);
             if(res.error){
                 alert(res.error)
             }

@@ -6,7 +6,7 @@
         if(!empty($id)){
             $checker= id_checker($id);
             if($checker){
-                echo json_encode(['message'=>$checker]);
+                echo json_encode(['message'=>['username' => $checker['username']]]);
             }
             else{
                 echo json_encode(['message'=>'no']);

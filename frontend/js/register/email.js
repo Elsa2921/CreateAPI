@@ -13,7 +13,8 @@ class Email{
                     'email1':true,
                     'email':email
                 }
-                let res = await fetchPOST(data)
+                let p = 'users'
+                let res = await fetchPOST(p,data)
                 if(res.error){
                     alert_message(res.error)
                 }

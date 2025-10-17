@@ -13,9 +13,11 @@ function search_form(){
             const input = element.querySelector('.search')
             const v = input.value
             if(v.trim()!==''){
-                
-                let data = `search=${input.getAttribute('data-value')}&value=${encodeURIComponent(v)}`
-                let res = await fetchGET(data)
+                let p = input.getAttribute('data-value')
+                let data = {
+                    'search': encodeURIComponent(v)
+                }
+                let res = await fetchGET(p,data)
                 if(res.api_search){
                     drawApi(res.api_search,3);
                 }
@@ -64,11 +66,10 @@ function visit(){
     let btns = document.querySelectorAll('.visit-user')
     btns.forEach(element=>{
         element.addEventListener('click', async function(){
-            let data = {
-                'visit':true,
-                'id':element.getAttribute('data-id')
-            }
-            let res = await fetchGET(data);
+            const id = element.getAttribute('data-id')
+            const p = `users/${id}`
+            
+            let res = await fetchGET(p);
             if(res.message){
                 if(res.message == 'ok'){
                     window.location.href = '../../html/pages/othersProfile.html'

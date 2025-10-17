@@ -1,4 +1,5 @@
 <?php
+session_start();
 // session_set_cookie_params([
 //     'secure' => true,      
 //     'httponly' => true,
@@ -28,12 +29,29 @@ require_once __DIR__.'/checkers/createApi.php';
 require_once __DIR__.'/pages/view.php';
 require_once __DIR__. '/pages/search.php';
 require_once __DIR__. '/profle/logout.php';
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+
+if (!empty($origin) and $origin==$_ENV['ALLOWED_ORIGINS']) {
+    header("Access-Control-Allow-Origin: $origin");
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+}
+
+$uri = $_SERVER['REQUEST_URI'];
+$script = $_SERVER['SCRIPT_NAME'];
+$path = str_replace($script,'',$uri);
+$path = parse_url($path,PHP_URL_PATH);
+$segments = explode('/',trim($path, '/'));
+
+$resource = $segments[0] ?? null;
+$id = $segments[1] ?? null;
+
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
     $post = json_decode(file_get_contents('php://input'),true);
     if(
-        isset($post['signup1'])
-        and isset($post['username'])
+        isset($post['username'])
         and isset($post['email'])
     ){
         if(!empty($post['username']) and !empty($post['email'])){
@@ -55,8 +73,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         }
     }
     elseif(
-        isset($post['verification'])
-        and isset($post['code'])
+        isset($post['code'])
         and isset($post['type'])
     ){
         if(!empty($post['code'])){
@@ -127,27 +144,21 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     }
 
     elseif(
-        isset($post['new'])
-        and isset($post['api_name'])
+        isset($post['newApi'])
+        and $resource === 'api'
+        and !is_null($id)
     ){
-        if(!empty($post['api_name'])){
-           api_name($post['api_name']);
-        }
-        else{
-            echo json_encode(['error'=>'no']);
-        }
+        api_name($id);
+        
     }
 
     elseif(
         isset($post['apiType'])
-        and isset($post['type'])
+        and !is_null($id)
+        and $resource==='api'
     ){
-        if(!empty($post['type'])){
-            select($post['type']);
-        }
-        else{
-            echo json_encode(['error'=> 'select one of the options']);
-        }
+        select($id);
+       
     }
 
     elseif(isset($post['addLine'])){
@@ -170,24 +181,25 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         }
     }
 
-    elseif(
-        isset($post['all_read_notif'])
-    ){
-        all_read();
-    }
 
     elseif(
-        isset($post['allow_notif'])
-        and isset($post['id'])
+        $resource === 'notification'
+        and !is_null($id)
+        and isset($post['notif'])
         and isset($post['api_id'])
         and isset($post['from'])
     ){
         if(
-            !empty($post['id'])
+            !empty($id)
             and !empty($post['api_id'])
             and !empty($post['from'])
             ){
-            allow_notif($post['id'],$post['api_id'],$post['from']);
+                if($post['notif']){
+                    allow_notif($id,$post['api_id'],$post['from']);
+                }else{
+                    deny_notif($id,$post['api_id'],$post['from']);
+
+                }
             
         }
         else{
@@ -197,64 +209,65 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     }
 
     elseif(
-        isset($post['deny_notif'])
-        and isset($post['id'])
-        and isset($post['api_id'])
-        and isset($post['from'])
+        $resource === 'notification'
+        and isset($post['readAll'])
     ){
-        if(
-            !empty($post['id'])
-            and !empty($post['api_id'])
-            and !empty($post['from'])
-            ){
-            deny_notif($post['id'],$post['api_id'],$post['from']);
-            
+        if(is_null($id) and $post['readAll']){
+            read_notif();
         }
         else{
-            echo json_encode(['message'=>'no']);
-            exit();
+            read_notif($id);
+
         }
     }
 
     elseif(
-        isset($post['read_notif'])
-        and isset($post['id'])
+        isset($post['ask_permission'])
+        and $resource === 'api'
     ){
-        if(!empty($post['id'])){
-            read_notif($post['id']);
-            
+        if(!is_null($id)){
+            ask_permission($id);
         }
         else{
             echo json_encode(['message'=>'no']);
-
         }
     }
 }
 
 
 elseif($_SERVER["REQUEST_METHOD"]==='GET'){
-    if(isset($_GET['PageReload'])){
-        reloadChecker();
+    if($resource==='users'  and empty($_GET)){
+        if(is_null($id)){
+            reloadChecker();
+            
+        }
+        else{
+            visit_p($id);
+
+        }
+    
     }
+        
+    
 
     elseif(
-        isset($_GET['reload1'])
-        and isset($_GET['profile'])
+        $resource === 'profile'
     ){
-        g_p();
+        if(is_null($id)){
+            g_p();
+        }
     }
 
     elseif(
-        isset($_GET['reload1'])
-        and isset($_GET['table'])
+        $resource==='table'
+        and is_null($id)
+
     ){
         tablePageReload();
     }
 
     elseif(
-        isset($_GET['others_api'])
-        and isset($_GET['Oprofile'])
-        and isset($_GET['Oreload'])
+        isset($_GET['Oprofile'])
         and isset($_GET['loadApis'])
         and isset($_GET['type'])
     ){
@@ -274,19 +287,10 @@ elseif($_SERVER["REQUEST_METHOD"]==='GET'){
         }
     }
 
+    
     elseif(
-        isset($_GET['ask_permission'])
-        and isset($_GET['id'])
-    ){
-        if(!empty($_GET['id'])){
-            ask_permission($_GET['id']);
-        }
-        else{
-            echo json_encode(['message'=>'no']);
-        }
-    }
-    elseif(
-        isset($post['getLink'])
+        $resource === 'link'
+        and is_null($id)
     ){
         createLink();
     }
@@ -294,20 +298,22 @@ elseif($_SERVER["REQUEST_METHOD"]==='GET'){
 
     elseif(
         isset($_GET['search'])
-        and isset($_GET['value'])
+        and !empty($_GET['search'])
     ){
-        if(!empty($_GET['value']) and ($_GET['search']=='api' or $_GET['search']=='user')){
-            if($_GET['search']=='api'){
-                api_s(urldecode($_GET['value']));
-            }
-            else{
-                user_s(urldecode($_GET['value']));
-            }
+        if($resource==='users'){
+            user_s(urldecode($_GET['search']));
 
         }
         else{
-            http_response_code(404);
+            api_s(urldecode($_GET['search']));
+
         }
+    }
+    elseif(
+        $resource === 'view'
+        and !is_null($id)
+    ){
+        view_($id);
     }
 }
 
@@ -316,14 +322,14 @@ elseif($_SERVER["REQUEST_METHOD"]==="DELETE"){
     $delete = $_GET;
     if(
         isset($delete['delete_api'])
-        and isset($delete['id'])
-        and isset($delete['type'])
+        and !is_null($id)
+        and $resource==='api'
     ){
         if(
-            !empty($delete['type'])
-            and !empty($delete['id'])
+            !empty($delete['delete_api'])
+            and !empty($id)
         ){
-            delete_api($delete['id'],$delete['type']);
+            delete_api($id,$delete['delete_api']);
         }else{
             echo json_encode(['message'=>'no']);
             exit();
@@ -331,19 +337,15 @@ elseif($_SERVER["REQUEST_METHOD"]==="DELETE"){
     }
 
     elseif(
-        isset($delete['delete_line'])
+        $resource === 'table'
         and isset($delete['table_type'])
-        and isset($delete['id'])
+        and !is_null($id)
     ){
-        if(!empty($delete['id']) and !empty($delete['table_type'])){
-            delete_line($delete['id'],$delete['table_type']);
-        }else{
-            echo json_encode(['message'=>'no']);
-            exit();
-        }
+        delete_line($id,$delete['table_type']);
+
     }
 
-    elseif(isset($delete['logout'])){
+    elseif($resource==='logout'){
         logout();
     }
 }
@@ -352,59 +354,37 @@ elseif($_SERVER["REQUEST_METHOD"]==="DELETE"){
 elseif($_SERVER["REQUEST_METHOD"]==='PUT'){
     $put = json_decode(file_get_contents('php://input'),true);
     if(
-        isset($put['edit_api'])
-        and isset($put['id'])
+        $resource === 'api'
+        and !is_null($id)
         and isset($put['type'])
         and isset($put['name'])
     ){
-        if(
-            !empty($put['type'])
-            and !empty($put['id'])
-            and !empty($put['name'])
-        ){
-            edit_api($put['id'],$put['type'],$put['name']);
-        }else{
-            echo json_encode(['message'=>'no']);
-            exit();
-        }
+        edit_api($id,$put['type'],$put['name']);
     }
     elseif(
         isset($put['continue_api'])
-        and isset($put['id'])
+        and !is_null($id)
+        and $resource === 'api'
         and isset($put['name'])
     ){
-        if(
-            !empty($put['id'])
-            and !empty($put['name'])
-        ){
-            continue_($put['id'],$put['name']);
-        }else{
-            echo json_encode(['message'=>'no']);
-            exit();
-        }
+        continue_($id,$put['name']);
     }
 
     elseif(
         isset($put['api_status'])
-        and isset($put['id'])
+        and !is_null($id)
+        and $resource === 'api'
     ){
-        if(
-            !empty($put['id'])
-        ){
-            api_status($put['id'],$put['api_status']);
-        }else{
-            echo json_encode(['message'=>'no']);
-            exit();
-        }
+        api_status($id,$put['api_status']);
     }
 
     elseif(
         isset($put['apiNameEdit'])
-        and isset($put['name'])
-        and isset($put['id'])
+        and $resource === 'api'
+        and !is_null($id)
     ){
-        if(!empty($put['name']) and !empty($put['id'])){
-            edit_username($put['id'],$put['name']);
+        if(!empty($put['apiNameEdit'])){
+            edit_username($id,$put['apiNameEdit']);
         }
         else{
             echo json_encode(['message'=>'no']);
@@ -413,18 +393,17 @@ elseif($_SERVER["REQUEST_METHOD"]==='PUT'){
     }
 
     elseif(
-        isset($put['edit'])
-        and isset($put['col'])
-        and isset($put['id'])
+        isset($put['col'])
         and isset($put['value'])
-        and isset($put['table'])
+        and isset($put['tableRowEdit'])
+        and $resource==='table'
     ){
         if(
             !empty($put['col'])
-            and !empty($put['id'])
+            and !is_null($id)
             and !empty($put['value'])
         ){
-            edit_cols($put['id'],$put['value'],$put['col']);
+            edit_cols($id,$put['value'],$put['col']);
         }
         else{
             http_response_code(403);

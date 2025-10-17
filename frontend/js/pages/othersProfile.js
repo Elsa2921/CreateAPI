@@ -3,15 +3,14 @@ import {saveInfo,drawApi} from "./othersApi.js"
 
 
 window.onload = async () => {
+    let p  = 'api'
     let data = {
-        'others_api':true,
         'Oprofile': true,
-        'Oreload': true,
         'loadApis':true,
         'type':''
     }
 
-    let res = await fetchGET(data);
+    let res = await fetchGET(p,data);
     if(res.message){
         let m = res.message;
 

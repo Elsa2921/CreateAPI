@@ -10,11 +10,11 @@ function apiName(){
         ev.preventDefault();
         const name = form.querySelector('#apiName').value
         if(name.trim()!==''){
+            let p = `api/${name}`
             let data = {
-                'new':true,
-                'api_name':name
+                'newApi':true
             }
-            let res = await fetchPOST(data);
+            let res = await fetchPOST(p,data);
             if(res.error){
                 alert(res.error)
             }

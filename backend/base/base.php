@@ -1,7 +1,7 @@
 <?php
 
 use Google\Service\CloudDeploy\Rollback;
-session_start();
+// session_start();
 require_once __DIR__.'/../register/use.php';
 class Base{
     public $host= 'localhost';

@@ -10,15 +10,14 @@ window.onload = async () => {
     loadMore();
     let load = sessionStorage.getItem('loadMore') || false;
     let type = sessionStorage.getItem('type') || false;
+    let p = 'api'
     let data = {
-        'others_api':true,
         'Oprofile': false,
-        'Oreload': true,
         'loadApis': load,
         'type': type
     }
 
-    let res = await fetchGET(data);
+    let res = await fetchGET(p,data);
     if(res.message){
         let m = res.message;
         
@@ -141,7 +140,7 @@ export function drawApi(data,status){
                                
                             }
                              str+=`
-                             <a href="/create_api/backend/requests/view.php?apiView=${encodeURIComponent(true)}&name=${encodeURIComponent(element['api_name'])}&type=${encodeURIComponent(element['type'])}" 
+                             <a href="/create_api/backend/index.php/view/${element['id']}" 
                                     target="blank">
                                         <button type="submit" class='view_btn yellow-btn'>
                                             <i class="fa-regular fa-eye"></i>

@@ -47,7 +47,8 @@ function slide_p(){
 
 window.onload = async() => {
     let data = {"PageReload" : true}
-    let res = await fetchGET(data);
+    let p = 'users';
+    let res = await fetchGET(p);
     
     if(document.querySelector('.menu_')){
         draw(res);

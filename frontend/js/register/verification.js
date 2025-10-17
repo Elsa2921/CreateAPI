@@ -7,12 +7,12 @@ class Verification{
         form.addEventListener('submit',async (ev) =>{
             ev.preventDefault();
             let code = form.querySelector('#verification').value
+            let p = 'users'
             let data = {
-                'verification':true,
                 'code':code,
                 'type':form.getAttribute('data-type')
             }
-            let res = await fetchPOST(data) 
+            let res = await fetchPOST(p,data) 
             if(res.error){
                 alert_message(res.error)
             }
@@ -39,7 +39,8 @@ class Verification{
                 'new_code':true,
                 'type':btn.getAttribute('data-type')
             }
-            let res = await fetchPOST(data)
+            let p = 'users'
+            let res = await fetchPOST(p,data)
             if(res.error){
                 alert_message(res.error)
             }

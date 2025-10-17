@@ -1,12 +1,10 @@
-import {fetchGET } from "../script.js"
+import {fetchGET, fetchPOST } from "../script.js"
 export function copy_link(){
     let btns =  document.querySelectorAll('.links_btn')
     btns.forEach(element => {
         element.addEventListener('click',async function(){
-            let data = {
-                'getLink':true
-            }
-            let res = await fetchGET(data);
+            let p = 'link'
+            let res = await fetchGET(p);
             let name = element.getAttribute('data-name')
             
             let link = res+''+encodeURIComponent(name)
@@ -35,12 +33,13 @@ export function ask(){
     btns.forEach(element => {
         element.addEventListener('click',async function(){
             let id = element.getAttribute('data-id')
+            let p = 'api'
+            p += '/'+id
             let data = {
-                'ask_permission':true,
-                'id':id
+                'ask_permission':true
             }
 
-            let res =await fetchGET(data);
+            let res =await fetchPOST(p,data);
             if(res.error){
                 alert(res.error)
             }

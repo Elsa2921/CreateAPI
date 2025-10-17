@@ -105,21 +105,33 @@ function edit_username($id,$name){
 
 
 
-function read_notif($id){
+function read_notif($id=null){
     $user_id = $_SESSION['id'] ?? '';
     if(!empty($user_id)){
         global $class;
-        $class->query(
-            "UPDATE notifications 
-            SET readed=:readed 
-            WHERE id=:id
-                AND to_=:user_id",
-            [
-                ':readed'  =>  1,
-                ':id'      =>  $id,
-                ':user_id'     =>  $user_id
-            ],2
-        );
+        if(!is_null($id)){
+            $class->query(
+                "UPDATE notifications 
+                SET readed=:readed 
+                WHERE id=:id
+                    AND to_=:user_id",
+                [
+                    ':readed'  =>  1,
+                    ':id'      =>  $id,
+                    ':user_id'     =>  $user_id
+                ],2
+            );
+        }
+        else{
+            $class->query(
+                "UPDATE notifications 
+                SET readed=:readed 
+                WHERE to_=:to_ 
+                AND type_!=:type_",
+                ['readed'=>1, 'to_'=>$user_id, 'type_'=>1],2
+            );
+        }
+        
     }
     echo json_encode(['message'=>'ok']);
     
@@ -227,22 +239,5 @@ function  deny_notif($id,$api_id,$to){
 }
 
 
-function all_read(){
-    $id = $_SESSION['id'] ?? '';
-    if(!empty($id)){
-        global $class;
-        $class->query(
-            "UPDATE notifications 
-            SET readed=:readed 
-            WHERE to_=:to_ 
-            AND type_!=:type_",
-            ['readed'=>1, 'to_'=>$id, 'type_'=>1],2
-        );
 
-        echo json_encode(['message'=>'ok']);
-    }
-    else{
-        echo json_encode(['message' => 'no']);
-    }
-}
 ?>
